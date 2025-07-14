@@ -50,7 +50,8 @@ npm run dev
 
 ## 🌍 Live Demo
 
-👉 **Coming Soon** on [Vercel](https://vercel.com)
+👉 [https://job-application-tracker-chi-ten.vercel.app/](https://job-application-tracker-chi-ten.vercel.app/)
+
 
 ---
 
