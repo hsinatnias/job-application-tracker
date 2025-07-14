@@ -1,9 +1,10 @@
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { useNavigate, useSearchParams } from "react-router-dom"
 
-const AddJob = ({setJobs}) => {
+const AddJob = ({ setJobs, jobs }) => {
      const navigate = useNavigate()
-
+     const [searchParams] = useSearchParams()
+     const editId = searchParams.get('id')
      const [formData, setFormData] = useState({
           company: '',
           position: '',
@@ -19,17 +20,34 @@ const AddJob = ({setJobs}) => {
 
      const handleSubmit = (e) => {
           e.preventDefault()
-          const newJob = {
-               ...formData,
-               id:Date.now().toString(),
-               appliedDate: new Date().toISOString().split('T')[0],
+
+          if (editId) {
+               const updatedJob = { ...formData, id: editId }
+               setJobs((prev) =>prev.map((job) => job.id === editId ? updatedJob : job))
+          } else {
+               const newJob = {
+                    ...formData,
+                    id: Date.now().toString(),
+                    appliedDate: new Date().toISOString().split('T')[0],
+               }
+               setJobs((prev) => [newJob, ...prev])
           }
-          setJobs((prev)=> [newJob, ...prev])
+
           navigate('/')
      }
+     useEffect(() => {
+          if (editId) {
+               const jobToEdit = jobs.find((job) => job.id === editId)
+               if (jobToEdit) {
+                    setFormData(jobToEdit)
+               }
+          }
+     }, [editId, jobs])
      return (
           <div className="max-w-xl mx-auto p-4">
-               <h2 className="text-2xl font-semibold mb-6">Add New Job</h2>
+               <h2 className="text-2xl font-semibold mb-6">
+                    {editId ? 'Edit Job' : 'Add New Job'}     
+               </h2>
 
                <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
@@ -98,7 +116,7 @@ const AddJob = ({setJobs}) => {
                               type="submit"
                               className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition"
                          >
-                              Add Job
+                              {editId ? 'Update Job' : 'Add Job'}
                          </button>
                     </div>
                </form>

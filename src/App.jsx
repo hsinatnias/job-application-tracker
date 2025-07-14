@@ -17,8 +17,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Dashboard jobs={jobs}/>}/>
-           <Route path="add" element={<AddJob setJobs={setJobs}/>}/>
-          <Route path="job/:id" element={<JobDetail/>}/>
+           <Route path="add" element={<AddJob jobs={jobs} setJobs={setJobs}/>}/>
+          <Route path="job/:id" element={<JobDetail jobs={jobs}/>}/>
           <Route path="*" element={<NotFound/>}/>
         </Route>
       </Routes>
