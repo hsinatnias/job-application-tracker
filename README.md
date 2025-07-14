@@ -1,12 +1,88 @@
-# React + Vite
+# 🧭 Job Application Tracker (React + Vite + Tailwind)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Track your job applications, statuses, and notes all in one place — and generate a polished resume from your profile. Built with **React**, **Tailwind CSS**, and **Vite** for performance and modern developer experience.
 
-Currently, two official plugins are available:
+[![Vite](https://img.shields.io/badge/Built%20with-Vite-blue.svg)](https://vitejs.dev/)
+[![TailwindCSS](https://img.shields.io/badge/Styled%20with-TailwindCSS-38B2AC.svg)](https://tailwindcss.com/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 📌 Features (Planned)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- ✅ Job dashboard to track applications
+- ✅ Status updates (Wishlist → Applied → Interview → Offer → Rejected)
+- ✅ Company/contact notes
+- ✅ Resume/CV generator (PDF export)
+- ✅ Filtering, search, and tagging
+- ✅ Clean UI with Tailwind CSS
+- ✅ Deploy-ready with Vercel
+
+---
+
+## 🚀 Getting Started
+
+```bash
+# Clone the repository
+git clone https://github.com/hsinatnias/job-portal.git
+cd job-portal
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+```
+
+---
+
+## 🛠️ Tech Stack
+
+- [React](https://reactjs.org/)
+- [Vite](https://vitejs.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [React Router](https://reactrouter.com/en/main)
+- PDF generation (coming soon):
+  - [react-pdf](https://react-pdf.org/)
+  - [html2pdf.js](https://ekoopmans.github.io/html2pdf.js/)
+
+---
+
+## 🌍 Live Demo
+
+👉 **Coming Soon** on [Vercel](https://vercel.com)
+
+---
+
+## 📁 Project Structure (to be updated)
+
+```
+src/
+│
+├── components/       # Reusable UI components
+├── pages/            # Route-level pages
+├── hooks/            # Custom hooks (if any)
+├── utils/            # Helper functions
+├── index.css         # Tailwind imports
+└── main.jsx          # App entry
+```
+
+---
+
+## 🤝 Contributing
+
+This is a solo project for learning and showcasing. Forks welcome!
+
+---
+
+## 📄 License
+
+[MIT](LICENSE)
+
+---
+
+## 👋 Author
+
+**Anish Mathew**  
+📧 anish.v.mathew1986@gmail.com  
+🌐 [GitHub](https://github.com/hsinatnias)
