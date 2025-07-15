@@ -12,7 +12,7 @@ const statusColor = {
 const statuses = ['all', 'wishlist', 'applied', 'interview', 'offer', 'rejected']
 
 
-export default function Dashboard({ jobs }) {
+export default function Dashboard({ jobs, setJobs }) {
     const [filter, setFilter] = useState('all')
 
     const filteredJobs =
@@ -26,7 +26,9 @@ export default function Dashboard({ jobs }) {
     const handleDelete = (id) => {
         const confirmDelete = confirm('Are you sure you want to delete the job?')
         if (confirmDelete) {
-            alert(`Deleting job ${id} yet to implement`)
+            //alert(`Deleting job ${id} yet to implement`)
+            setJobs((prevJobs)=> prevJobs.filter((job)=>job.id!==id))
+
         }
     }
 
@@ -50,8 +52,18 @@ export default function Dashboard({ jobs }) {
                 ))}
             </div>
 
+                 <button 
+                    onClick={()=>{
+                        if(confirm('Are you sure you want to reset all job data?')){
+                            localStorage.removeItem('jobs')
+                        }
+                    }}
+                className="text-sm text-red-600 underline mt-4 mb-4">
+                    Reset All Jobs
+                </button>
             {/* Job Cards */}
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+               
                 {filteredJobs.map((job) => (
                     <div
                         key={job.id}
