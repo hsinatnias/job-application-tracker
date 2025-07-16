@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
+import {toast} from 'react-hot-toast'
+import StatusBadge from '../components/StatusBadge'
 const statusColor = {
     wishlist: 'bg-yellow-100 text-yellow-800',
     applied: 'bg-blue-100 text-blue-800',
@@ -28,6 +29,7 @@ export default function Dashboard({ jobs, setJobs }) {
         if (confirmDelete) {
             //alert(`Deleting job ${id} yet to implement`)
             setJobs((prevJobs)=> prevJobs.filter((job)=>job.id!==id))
+            toast.success("Job deleted successfully")
 
         }
     }
@@ -78,12 +80,8 @@ export default function Dashboard({ jobs, setJobs }) {
                         status display
                         */}
                         <div className="mt-4 flex justify-between items-center">
-                            <span
-                                className={`text-xs px-2 py-1 rounded-full ${statusColor[job.status] || 'bg-gray-100 text-gray-800'
-                                    }`}
-                            >
-                                {job.status.charAt(0).toUpperCase() + job.status.slice(1)}
-                            </span>
+
+                            <StatusBadge status={job.status} />
                             <span className="text-xs text-gray-400">{job.appliedDate}</span>
                         </div>
                         {/*

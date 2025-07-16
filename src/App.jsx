@@ -10,6 +10,8 @@ import "./App.css";
 import { useState, useEffect } from "react";
 import LogIn from "./pages/Login";
 import Register from "./pages/Register";
+import { Toaster } from "react-hot-toast";
+import Profile from "./pages/Profile.jsx";
 
 function App() {
   const [jobs, setJobs] = useState(() => {
@@ -21,28 +23,33 @@ function App() {
   }, [jobs]);
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/login" element={<LogIn />} />
-        <Route path="/register" element={<Register />} />
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <Layout />
-            </ProtectedRoute>
-          }
-        >
-          <Route index element={<Dashboard jobs={jobs} setJobs={setJobs} />} />
+    <>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<LogIn />} />
+          <Route path="/register" element={<Register />} />
           <Route
-            path="add"
-            element={<AddJob jobs={jobs} setJobs={setJobs} />}
-          />
-          <Route path="job/:id" element={<JobDetail jobs={jobs} />} />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
-    </Router>
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Layout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<Dashboard jobs={jobs} setJobs={setJobs} />} />
+            <Route
+              path="add"
+              element={<AddJob jobs={jobs} setJobs={setJobs} />}
+            />
+            <Route path="job/:id" element={<JobDetail jobs={jobs} />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="*" element={<NotFound />} />
+
+          </Route>
+        </Routes>
+      </Router>
+      <Toaster position="top-right" reverseOrder={false} />
+    </>
   );
 }
 

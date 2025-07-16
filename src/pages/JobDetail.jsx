@@ -1,4 +1,6 @@
 import { useParams, Link, useNavigate } from "react-router-dom"
+import StatusBadge from "../components/StatusBadge"
+
 const JobDetail = ({ jobs }) => {
     const { id } = useParams()
     const navigate = useNavigate()
@@ -18,8 +20,7 @@ const JobDetail = ({ jobs }) => {
         <p className="text-sm sm:text-base text-gray-500 mb-4">{job.location}</p>
 
         <div className="mb-2">
-            <span className="block text-sm sm:text-base font-medium text-gray-700">Status:</span>
-            <span className="text-sm text-gray-800">{job.status}</span>
+            <strong>Status:</strong><StatusBadge status={job.status} />
         </div>
 
         <div className="mb-2">

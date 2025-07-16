@@ -1,10 +1,10 @@
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
-import { Menu, User } from "lucide-react";
+import { Menu, User, X } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
-import { useNavigate } from "react-router-dom";
+
 
 export default function Layout() {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,23 +26,39 @@ export default function Layout() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const handleLogout = () => {
+    signOut(auth)
+    navigate("/login")
+  }
+
   return (
-    <div className="min-h-screen flex flex-col md:flex-row">
+    <div className="min-h-screen flex flex-col md:flex-row relative">
       {/* Mobile Header */}
-      <div className="md:hidden bg-gray-800 text-white flex justify-between items-center px-4 py-3 relative">
+      <div className="md:hidden bg-gray-800 text-white flex justify-between items-center px-4 py-3 relative z-40">
         <h1 className="text-xl font-bold">Job Tracker</h1>
         <div className="flex items-center gap-4">
           <button
             onClick={() => setShowDropdown(!showDropdown)}
             className="focus:outline-none"
           >
-            <User />
+            {user?.photoURL ? (
+                <img
+                    src={user.photoURL}
+                    alt="avatar"
+                    className="w-8 h-8 rounded-full object-cover border-2 border-white"
+                />
+            ) : (
+                <div className="w-8 h-8 bg-neutral-600 text-white rounded-full flex items-center justify-center font-bold">
+                  {user?.email?.[0]?.toUpperCase() || "?"}
+                </div>
+            )}
+
           </button>
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="focus:outline-none"
           >
-            <Menu />
+            {isOpen ? <X /> : <Menu />}
           </button>
         </div>
 
@@ -56,10 +72,7 @@ export default function Layout() {
               Profile
             </button>
             <button
-              onClick={() => {
-                signOut(auth);
-                navigate("/login");
-              }}
+              onClick={handleLogout}
               className="block w-full px-4 py-2 text-left hover:bg-gray-100"
             >
               Logout
@@ -70,20 +83,31 @@ export default function Layout() {
 
       {/* Sidebar */}
       <aside
-        className={`bg-gray-800 text-white flex-col p-4 space-y-2 md:flex ${
-          isOpen ? "flex" : "hidden"
-        } md:w-64 md:block`}
+        className={`
+          fixed md:static top-0 left-0 h-full md:w-72 bg-gray-900 text-white flex flex-col p-4 space-y-2
+          transform ${isOpen ? "translate-x-0" : "-translate-x-full"} 
+          transition-transform duration-300 ease-in-out 
+          z-40 md:translate-x-0 md:flex h-full md:h-auto
+        `}
       >
-        <p className="text-sm text-gray-300 mb-4">
-          Logged in as <span className="font-semibold">{user?.email}</span>
-        </p>
+        <div className="flex items-center gap-2 mb-4">
+          {user?.photoURL ? (
+              <img src={user.photoURL} alt="avatar" className="w-8 h-8 rounded-full" />
+          ) : (
+              <div className="w-8 h-8 bg-neutral-600 text-white rounded-full flex items-center justify-center font-bold">
+                {user?.email?.[0]?.toUpperCase() || "?"}
+              </div>
+          )}
+          <span className="text-sm text-gray-300">{user?.email}</span>
+        </div>
+
         <h1 className="text-2xl font-bold mb-6 hidden md:block">Job Tracker</h1>
         <NavLink
           to="/"
           end
+          onClick={() => setIsOpen(false)}
           className={({ isActive }) =>
-            `py-2 px-4 rounded ${
-              isActive ? "bg-gray-700" : "hover:bg-gray-600"
+            `py-2 px-4 rounded ${isActive ? "bg-gray-700" : "hover:bg-gray-600"
             }`
           }
         >
@@ -91,27 +115,34 @@ export default function Layout() {
         </NavLink>
         <NavLink
           to="/add"
+          onClick={() => setIsOpen(false)}
           className={({ isActive }) =>
-            `py-2 px-4 rounded ${
-              isActive ? "bg-gray-700" : "hover:bg-gray-600"
+            `py-2 px-4 rounded ${isActive ? "bg-gray-700" : "hover:bg-gray-600"
             }`
           }
         >
           Add Job
         </NavLink>
         <NavLink
-          onClick={() => {
-            signOut(auth);
-            navigate("/login");
-          }}
-          className="py-2 px-4 rounded hover:bg-gray-600"
+            to="/profile"
+            onClick={() => setIsOpen(false)}
+            className={({ isActive }) =>
+                `py-2 px-4 rounded ${isActive ? "bg-gray-700" : "hover:bg-gray-600"
+                }`
+            }
+                 >
+          Profile
+        </NavLink>
+        <NavLink
+          onClick={handleLogout}
+          className="py-2 px-4 rounded hover:bg-gray-600 text-left"
         >
           Logout
         </NavLink>
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-4 bg-gray-100">
+      <main className="flex-1 p-4 md:p-8 bg-gray-100">
         <Outlet />
       </main>
     </div>

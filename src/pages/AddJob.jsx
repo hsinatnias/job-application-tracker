@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom"
+import { toast } from 'react-hot-toast'
 
 const AddJob = ({ setJobs, jobs }) => {
      const navigate = useNavigate()
@@ -24,6 +25,7 @@ const AddJob = ({ setJobs, jobs }) => {
           if (editId) {
                const updatedJob = { ...formData, id: editId }
                setJobs((prev) =>prev.map((job) => job.id === editId ? updatedJob : job))
+               toast.success('Job updated successfully')
           } else {
                const newJob = {
                     ...formData,
@@ -31,6 +33,7 @@ const AddJob = ({ setJobs, jobs }) => {
                     appliedDate: new Date().toISOString().split('T')[0],
                }
                setJobs((prev) => [newJob, ...prev])
+               toast.success('Job added successfully')
           }
 
           navigate('/')
@@ -50,48 +53,55 @@ const AddJob = ({ setJobs, jobs }) => {
                </h2>
 
                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                         <label className="block mb-1 text-sm font-medium">Company</label>
+                    <div className="space-y-1">
+                         <label htmlFor="company" className="text-sm font-medium text-gray-700">Company<spand className="text-red-500">*</spand></label>
                          <input
+                             id="company"
                               type="text"
                               name="company"
                               value={formData.company}
                               onChange={handleChange}
-                              className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-300"
+                              className="w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition px-3 py-2 text-sm bg-white"
+
                               required
                          />
                     </div>
-                    <div>
-                         <label className="block mb-1 text-sm font-medium">Position</label>
+                    <div className="space-y-1">
+                         <label htmlFor="position" className="text-sm font-medium text-gray-700">Position<spand className="text-red-500">*</spand></label>
                          <input
+                             id="position"
                               type="text"
                               name="position"
                               value={formData.position}
                               onChange={handleChange}
-                              className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-300"
+                             className="w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition px-3 py-2 text-sm bg-white"
                               required
                          />
                     </div>
 
-                    <div>
-                         <label className="block mb-1 text-sm font-medium">Location</label>
+                    <div className="space-y-1">
+                         <label htmlFor="location" className="text-sm font-medium text-gray-700">Location<spand className="text-red-500">*</spand></label>
                          <input
+                             id="location"
                               type="text"
                               name="location"
                               value={formData.location}
                               onChange={handleChange}
-                              className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-300"
+                             className="w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition px-3 py-2 text-sm bg-white"
                          />
                     </div>
 
-                    <div>
-                         <label className="block mb-1 text-sm font-medium">Status</label>
+                    <div className="space-y-1">
+                         <label htmlFor="status" className="text-sm font-medium text-gray-700">Status<spand className="text-red-500">*</spand></label>
                          <select
+                             id="status"
                               name="status"
                               value={formData.status}
                               onChange={handleChange}
-                              className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-300"
+                              className="w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition px-3 py-2 text-sm bg-white"
+                              required
                          >
+                              <option value="">-- Select Status --</option>
                               <option value="wishlist">Wishlist</option>
                               <option value="applied">Applied</option>
                               <option value="interview">Interview</option>
@@ -100,14 +110,14 @@ const AddJob = ({ setJobs, jobs }) => {
                          </select>
                     </div>
 
-                    <div>
-                         <label className="block mb-1 text-sm font-medium">Notes</label>
+                    <div className="space-y-1">
+                         <label className="text-sm font-medium text-gray-700">Notes<spand className="text-red-500">*</spand></label>
                          <textarea
                               name="notes"
                               value={formData.notes}
                               onChange={handleChange}
                               rows="4"
-                              className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-300"
+                              className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-300 bg-white"
                          ></textarea>
                     </div>
 
