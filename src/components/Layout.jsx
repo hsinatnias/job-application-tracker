@@ -134,6 +134,28 @@ export default function Layout() {
           Profile
         </NavLink>
         <NavLink
+          to="/resume"
+          onClick={() => setIsOpen(false)}
+          className={({ isActive }) =>
+              `py-2 px-4 rounded ${isActive ? "bg-gray-700" : "hover:bg-gray-600"
+              }`
+          }
+              >
+          Resume
+
+        </NavLink>
+        <NavLink
+            to="/resume_preview"
+            onClick={() => setIsOpen(false)}
+            className={({ isActive }) =>
+                `py-2 px-4 rounded ${isActive ? "bg-gray-700" : "hover:bg-gray-600"
+                }`
+            }
+        >
+          Resume Preview
+
+        </NavLink>
+        <NavLink
           onClick={handleLogout}
           className="py-2 px-4 rounded hover:bg-gray-600 text-left"
         >

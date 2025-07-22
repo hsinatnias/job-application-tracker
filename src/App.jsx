@@ -12,6 +12,8 @@ import LogIn from "./pages/Login";
 import Register from "./pages/Register";
 import { Toaster } from "react-hot-toast";
 import Profile from "./pages/Profile.jsx";
+import ResumeProfile from "./pages/ResumeProfile.jsx";
+import ResumePreview from "./pages/ResumePreview.jsx";
 
 function App() {
   const [jobs, setJobs] = useState(() => {
@@ -43,6 +45,8 @@ function App() {
             />
             <Route path="job/:id" element={<JobDetail jobs={jobs} />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="resume" element={<ResumeProfile />} />
+            <Route path="resume_preview" element={<ResumePreview />} />
             <Route path="*" element={<NotFound />} />
 
           </Route>
