@@ -4,6 +4,7 @@ import { Menu, User, X } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
+import useTheme  from "../hooks/useTheme.js";
 
 
 export default function Layout() {
@@ -30,6 +31,7 @@ export default function Layout() {
     signOut(auth)
     navigate("/login")
   }
+  const [darkMode, setDarkMode] = useTheme()
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row relative">
@@ -167,6 +169,12 @@ export default function Layout() {
       <main className="flex-1 p-4 md:p-8 bg-gray-100">
         <Outlet />
       </main>
+{/*<button*/}
+{/*    onClick={() => setDarkMode(!darkMode)}*/}
+{/*    className="text-sm bg-gray-300 dark:bg-gray-700 text-black dark:text-white px-3 py-1 rounded"*/}
+{/*>*/}
+{/*    {darkMode ? '🌙 Dark' : '☀️ Light'}*/}
+{/*</button>*/}
     </div>
   );
 }
