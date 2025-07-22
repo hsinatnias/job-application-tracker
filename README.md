@@ -1,6 +1,6 @@
-# 🧭 Job Application Tracker (React + Vite + Tailwind)
+# 🧭 Job Application Tracker (React + Vite + Firebae + Tailwind)
 
-Track your job applications, statuses, and notes all in one place — and generate a polished resume from your profile. Built with **React**, **Tailwind CSS**, and **Vite** for performance and modern developer experience.
+Track your job applications, statuses, and notes all in one place — and generate a polished resume from your profile. Built with **React**, **Tailwind CSS**, **Firebase Auth**, and **@react-pdf/renderer** for a modern, portable experience.
 
 [![Vite](https://img.shields.io/badge/Built%20with-Vite-blue.svg)](https://vitejs.dev/)
 [![TailwindCSS](https://img.shields.io/badge/Styled%20with-TailwindCSS-38B2AC.svg)](https://tailwindcss.com/)
@@ -10,13 +10,16 @@ Track your job applications, statuses, and notes all in one place — and genera
 
 ## 📌 Features (Planned)
 
-- ✅ Job dashboard to track applications
-- ✅ Status updates (Wishlist → Applied → Interview → Offer → Rejected)
-- ✅ Company/contact notes
-- ✅ Resume/CV generator (PDF export)
-- ✅ Filtering, search, and tagging
-- ✅ Clean UI with Tailwind CSS
-- ✅ Deploy-ready with Vercel
+
+- ✅ **Firebase Authentication** (Register, Login, Logout)
+- ✅ **Job Dashboard** (Add, Edit, Delete jobs)
+- ✅ **Status tracking** (Wishlist → Applied → Interview → Offer → Rejected)
+- ✅ **Notes and company details** per job
+- ✅ **Responsive UI** (Mobile-first layout, sidebar, profile dropdown)
+- ✅ **PDF Resume Generator** with [@react-pdf/renderer](https://react-pdf.org/)
+- ✅ **Toast notifications** for feedback
+- ✅ **Persistent data with localStorage**
+- ✅ **Deploy-ready** with Vercel
 
 ---
 
@@ -42,9 +45,8 @@ npm run dev
 - [Vite](https://vitejs.dev/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [React Router](https://reactrouter.com/en/main)
-- PDF generation (coming soon):
-  - [react-pdf](https://react-pdf.org/)
-  - [html2pdf.js](https://ekoopmans.github.io/html2pdf.js/)
+- [@react-pdf/renderer](https://react-pdf.org/)— resume export
+- [Firebase Authentication](https://firebase.google.com/)
 
 ---
 
@@ -61,9 +63,9 @@ npm run dev
 src/
 │
 ├── components/       # Reusable UI components
-├── pages/            # Route-level pages
-├── hooks/            # Custom hooks (if any)
-├── utils/            # Helper functions
+├── pages/            # Route-level pages (Dashboard, AddJob, ResumeProfile)
+├── contexts/         # irebase Auth context provider
+├── firebase.js       #  Firebase config
 ├── index.css         # Tailwind imports
 └── main.jsx          # App entry
 ```
@@ -72,7 +74,8 @@ src/
 
 ## 🤝 Contributing
 
-This is a solo project for learning and showcasing. Forks welcome!
+This is a solo developer project for learning, demonstration, and showcasing.  
+Feel free to fork it or get inspired for your own resume tracker!
 
 ---
 
