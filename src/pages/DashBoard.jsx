@@ -69,10 +69,10 @@ export default function Dashboard({ jobs, setJobs }) {
                 {filteredJobs.map((job) => (
                     <div
                         key={job.id}
-                        className="bg-white border rounded-lg shadow-sm p-4 flex flex-col justify-between"
+                        className="bg-white bg-gray-100 dark:bg-gray-900 border rounded-lg shadow-sm p-4 flex flex-col justify-between"
                     >
                         <div>
-                            <h3 className="text-lg font-semibold">{job.position}</h3>
+                            <h3 className="text-lg text-gray-900 dark:text-gray-100 font-semibold">{job.position}</h3>
                             <p className="text-sm text-gray-600">{job.company}</p>
                             <p className="text-sm text-gray-500">{job.location}</p>
                         </div>
