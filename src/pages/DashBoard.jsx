@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {toast} from 'react-hot-toast'
 import StatusBadge from '../components/StatusBadge'
+import mockJobs from '../data/mockJobs'
 const statusColor = {
     wishlist: 'bg-yellow-100 text-yellow-800',
     applied: 'bg-blue-100 text-blue-800',
@@ -21,7 +22,7 @@ export default function Dashboard({ jobs, setJobs }) {
     const navigate = useNavigate()
 
     const handleEdit = (id) => {
-        alert(`Edit Job ${id} (Yet to implement)`)
+        navigate(`/add?id=${id}`)
     }
 
     const handleDelete = (id) => {
@@ -55,9 +56,11 @@ export default function Dashboard({ jobs, setJobs }) {
             </div>
 
                  <button 
-                    onClick={()=>{
-                        if(confirm('Are you sure you want to reset all job data?')){
+                    onClick={() => {
+                        if (confirm('Are you sure you want to reset all job data?')) {
                             localStorage.removeItem('jobs')
+                            setJobs(mockJobs)
+                            toast.success('Jobs reset to default')
                         }
                     }}
                 className="text-sm text-red-600 underline mt-4 mb-4">

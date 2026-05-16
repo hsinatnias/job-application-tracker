@@ -18,7 +18,7 @@ const ResumePreview = () => {
                 </div>
 
                 <div className="mb-4">
-                    <h2 className="text-lg font-semibold border-b border-gray-200 mb-2">Summery</h2>
+                    <h2 className="text-lg font-semibold border-b border-gray-200 mb-2">Summary</h2>
                     <p className="whitespace-pre-line">{profile.summary}</p>
                 </div>
 

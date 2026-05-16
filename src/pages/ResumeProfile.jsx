@@ -44,7 +44,7 @@ const ResumeProfile = () => {
                             name="name"
                             value={formData.name}
                             onChange={handleChange}
-                            className="w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition px-3 py-2 text-sm bg-white"
+                            className="w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition px-3 py-2 text-sm bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
                         />
                     </div>
                     <div className="space-y-1">
@@ -55,7 +55,7 @@ const ResumeProfile = () => {
                             name="email"
                             value={formData.email}
                             onChange={handleChange}
-                            className="w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition px-3 py-2 text-sm bg-white"
+                            className="w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition px-3 py-2 text-sm bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
                         />
                     </div>
                     <div className="space-y-1">
@@ -66,7 +66,7 @@ const ResumeProfile = () => {
                             name="phone"
                             value={formData.phone}
                             onChange={handleChange}
-                            className="w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition px-3 py-2 text-sm bg-white"
+                            className="w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition px-3 py-2 text-sm bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
                         />
                     </div>
                     <div className="space-y-1">
@@ -77,7 +77,7 @@ const ResumeProfile = () => {
                             rows="4"
                             onChange={handleChange}
                             value={formData.summary}
-                            className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-300 bg-white"
+                            className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-300 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
                         ></textarea>
                     </div>
                     <div className="space-y-1">
@@ -88,7 +88,7 @@ const ResumeProfile = () => {
                             rows="4"
                             onChange={handleChange}
                             value={formData.skills}
-                            className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-300 bg-white"
+                            className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-300 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
                         ></textarea>
                     </div>
                     <div className="space-y-1">
@@ -99,7 +99,7 @@ const ResumeProfile = () => {
                             rows="4"
                             onChange={handleChange}
                             value={formData.experience}
-                            className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-300 bg-white"
+                            className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-300 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
                         ></textarea>
                     </div>
                     <div className="space-y-1">
@@ -110,7 +110,7 @@ const ResumeProfile = () => {
                             rows="4"
                             onChange={handleChange}
                             value={formData.education}
-                            className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-300 bg-white"
+                            className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-300 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
                             ></textarea>
                     </div>
                     <div>

@@ -30,14 +30,14 @@ const Register = () => {
       <form onSubmit={handleRegister}>
         <input
           type="email"
-          className="w-full p-2 mb-3 border rounded"
+          className="w-full p-2 mb-3 border rounded bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
           type="password"
-          className="w-full p-2 mb-4 border rounded"
+          className="w-full p-2 mb-4 border rounded bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -46,6 +46,10 @@ const Register = () => {
           Register
         </button>
       </form>
+      <p className="text-sm text-center mt-4 text-gray-600">
+        Already have an account?{' '}
+        <a href="/login" className="text-blue-600 hover:underline">Login</a>
+      </p>
     </div>
   );
 };

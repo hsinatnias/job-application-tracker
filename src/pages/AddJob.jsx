@@ -54,51 +54,51 @@ const AddJob = ({ setJobs, jobs }) => {
 
                <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="space-y-1">
-                         <label htmlFor="company" className="text-sm font-medium text-gray-700">Company<spand className="text-red-500">*</spand></label>
+                         <label htmlFor="company" className="text-sm font-medium text-gray-700">Company<span className="text-red-500">*</span></label>
                          <input
                              id="company"
                               type="text"
                               name="company"
                               value={formData.company}
                               onChange={handleChange}
-                              className="w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition px-3 py-2 text-sm bg-white"
+                              className="w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition px-3 py-2 text-sm bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
 
                               required
                          />
                     </div>
                     <div className="space-y-1">
-                         <label htmlFor="position" className="text-sm font-medium text-gray-700">Position<spand className="text-red-500">*</spand></label>
+                         <label htmlFor="position" className="text-sm font-medium text-gray-700">Position<span className="text-red-500">*</span></label>
                          <input
                              id="position"
                               type="text"
                               name="position"
                               value={formData.position}
                               onChange={handleChange}
-                             className="w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition px-3 py-2 text-sm bg-white"
+                             className="w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition px-3 py-2 text-sm bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
                               required
                          />
                     </div>
 
                     <div className="space-y-1">
-                         <label htmlFor="location" className="text-sm font-medium text-gray-700">Location<spand className="text-red-500">*</spand></label>
+                         <label htmlFor="location" className="text-sm font-medium text-gray-700">Location<span className="text-red-500">*</span></label>
                          <input
                              id="location"
                               type="text"
                               name="location"
                               value={formData.location}
                               onChange={handleChange}
-                             className="w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition px-3 py-2 text-sm bg-white"
+                             className="w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition px-3 py-2 text-sm bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
                          />
                     </div>
 
                     <div className="space-y-1">
-                         <label htmlFor="status" className="text-sm font-medium text-gray-700">Status<spand className="text-red-500">*</spand></label>
+                         <label htmlFor="status" className="text-sm font-medium text-gray-700">Status<span className="text-red-500">*</span></label>
                          <select
                              id="status"
                               name="status"
                               value={formData.status}
                               onChange={handleChange}
-                              className="w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition px-3 py-2 text-sm bg-white"
+                              className="w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition px-3 py-2 text-sm bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
                               required
                          >
                               <option value="">-- Select Status --</option>
@@ -111,13 +111,13 @@ const AddJob = ({ setJobs, jobs }) => {
                     </div>
 
                     <div className="space-y-1">
-                         <label className="text-sm font-medium text-gray-700">Notes<spand className="text-red-500">*</spand></label>
+                         <label className="text-sm font-medium text-gray-700">Notes<span className="text-red-500">*</span></label>
                          <textarea
                               name="notes"
                               value={formData.notes}
                               onChange={handleChange}
                               rows="4"
-                              className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-300 bg-white"
+                              className="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-300 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
                          ></textarea>
                     </div>
 
