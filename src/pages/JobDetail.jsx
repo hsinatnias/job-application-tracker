@@ -1,66 +1,100 @@
-import { useParams, Link, useNavigate } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import StatusBadge from "../components/StatusBadge"
+import { ArrowLeft, Briefcase, MapPin, Calendar, FileText, Pencil } from 'lucide-react'
 
 const JobDetail = ({ jobs }) => {
     const { id } = useParams()
     const navigate = useNavigate()
     const job = jobs.find((job) => job.id === id)
+
     if (!job) {
         return (
-            <div className="p-4 text-center">
-                <h2 className="text-lg sm:text-xl font-semibold mb-4 text-red-500">Job not found 😢</h2>
-                <Link to="/" className="text-sm sm:text-base text-blue-600 underline">Back to Dashboard</Link>
+            <div className="text-center py-20">
+                <p className="text-4xl mb-3">😢</p>
+                <h2 className="text-lg font-semibold text-gray-700 mb-2">Job not found</h2>
+                <button
+                    onClick={() => navigate('/')}
+                    className="text-sm text-indigo-600 hover:underline"
+                >
+                    Back to Dashboard
+                </button>
             </div>
         )
     }
 
     return (
-        <div className="max-w-xl mx-auto p-4 sm:p-6 bg-white dark:bg-gray-800 shadow rounded-md">
-            <h2 className="text-xl sm:text-2xl font-bold mb-2 dark:text-white">{job.position}</h2>
-            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-1">{job.company}</p>
-            <p className="text-sm sm:text-base text-gray-500 dark:text-gray-400 mb-4">{job.location}</p>
+        <div className="max-w-xl mx-auto">
 
-            <div className="mb-2 flex items-center gap-2">
-                <strong className="text-gray-700 dark:text-gray-300">Status:</strong>
-                <StatusBadge status={job.status} />
-            </div>
+            {/* Back button */}
+            <button
+                onClick={() => navigate(-1)}
+                className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-gray-600 transition-colors mb-6"
+            >
+                <ArrowLeft size={14} /> Back
+            </button>
 
-            <div className="mb-2">
-                <span className="block text-sm sm:text-base font-medium text-gray-700 dark:text-gray-300">Applied On:</span>
-                <span className="text-sm text-gray-800 dark:text-gray-400">
-                    {job.appliedDate
-                        ? new Date(job.appliedDate).toLocaleDateString('en-GB', {
+            {/* Header card */}
+            <div className="bg-white border border-gray-100 rounded-xl p-6 mb-4">
+                <div className="flex items-start justify-between gap-4 mb-4">
+                    <div>
+                        <h2 className="text-xl font-bold text-gray-900 mb-1">{job.position}</h2>
+                        <div className="flex items-center gap-1.5 text-sm text-gray-500 mb-1">
+                            <Briefcase size={13} />
+                            {job.company}
+                        </div>
+                        {job.location && (
+                            <div className="flex items-center gap-1.5 text-sm text-gray-400">
+                                <MapPin size={13} />
+                                {job.location}
+                            </div>
+                        )}
+                    </div>
+                    <StatusBadge status={job.status} />
+                </div>
+
+                {job.appliedDate && (
+                    <div className="flex items-center gap-1.5 text-xs text-gray-400 pt-4 border-t border-gray-50">
+                        <Calendar size={12} />
+                        Applied on {new Date(job.appliedDate).toLocaleDateString('en-GB', {
                             day: 'numeric',
                             month: 'long',
                             year: 'numeric'
-                        })
-                        : '—'}
-                </span>
+                        })}
+                    </div>
+                )}
             </div>
 
-            <div className="mb-4">
-                <span className="block text-sm sm:text-base font-medium text-gray-700 dark:text-gray-300">Notes:</span>
-                <p className="text-sm text-gray-700 dark:text-gray-400 whitespace-pre-wrap mt-1">
-                    {job.notes || 'No notes added.'}
-                </p>
-            </div>
+            {/* Notes card */}
+            {job.notes && (
+                <div className="bg-white border border-gray-100 rounded-xl p-6 mb-4">
+                    <div className="flex items-center gap-2 mb-3">
+                        <FileText size={14} className="text-gray-400" />
+                        <h3 className="text-sm font-medium text-gray-700">Notes</h3>
+                    </div>
+                    <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap">
+                        {job.notes}
+                    </p>
+                </div>
+            )}
 
-            <div className="flex flex-col sm:flex-row justify-between gap-2 mt-6">
+            {/* Actions */}
+            <div className="flex gap-3">
                 <button
-                    onClick={() => navigate(-1)}
-                    className="w-full sm:w-auto text-sm text-gray-600 dark:text-gray-400 hover:underline"
+                    onClick={() => navigate(`/add?id=${job.id}`)}
+                    className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition"
                 >
-                    ← Back
+                    <Pencil size={14} /> Edit job
                 </button>
-                <Link
-                    to={`/add?id=${job.id}`}
-                    className="w-full sm:w-auto text-sm text-blue-600 dark:text-blue-400 hover:underline text-center"
+                <button
+                    onClick={() => navigate('/')}
+                    className="flex-1 py-2.5 border border-gray-200 text-gray-600 text-sm font-medium rounded-lg hover:bg-gray-50 transition"
                 >
-                    Edit
-                </Link>
+                    Back to dashboard
+                </button>
             </div>
+
         </div>
     )
-
 }
+
 export default JobDetail
