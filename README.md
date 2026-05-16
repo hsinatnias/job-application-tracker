@@ -1,25 +1,47 @@
-# 🧭 Job Application Tracker (React + Vite + Firebase + Tailwind)
+# 🧭 Job Application Tracker
 
-Track your job applications, statuses, and notes all in one place — and generate a polished resume from your profile. Built with **React**, **Tailwind CSS**, **Firebase Auth**, and **@react-pdf/renderer** for a modern, portable experience.
+A full-stack job application tracking platform built with React and Firebase — helping developers manage their entire job search from wishlist to offer.
 
-[![Vite](https://img.shields.io/badge/Built%20with-Vite-blue.svg)](https://vitejs.dev/)
+[![React](https://img.shields.io/badge/Built%20with-React-61DAFB.svg)](https://reactjs.org/)
+[![Firebase](https://img.shields.io/badge/Auth%20%26%20DB-Firebase-FFCA28.svg)](https://firebase.google.com/)
 [![TailwindCSS](https://img.shields.io/badge/Styled%20with-TailwindCSS-38B2AC.svg)](https://tailwindcss.com/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 ---
 
-## 📌 Features (Planned)
+## 🔗 Live Demo
 
+👉 [https://job-application-tracker-chi-ten.vercel.app](https://job-application-tracker-chi-ten.vercel.app)
 
-- ✅ **Firebase Authentication** (Register, Login, Logout)
-- ✅ **Job Dashboard** (Add, Edit, Delete jobs)
-- ✅ **Status tracking** (Wishlist → Applied → Interview → Offer → Rejected)
-- ✅ **Notes and company details** per job
-- ✅ **Responsive UI** (Mobile-first layout, sidebar, profile dropdown)
-- ✅ **PDF Resume Generator** with [@react-pdf/renderer](https://react-pdf.org/)
-- ✅ **Toast notifications** for feedback
-- ✅ **Persistent data with localStorage**
-- ✅ **Deploy-ready** with Vercel
+---
+
+## ✨ Features
+
+- **Authentication** — Firebase Auth with email/password, protected routes, forgot password
+- **Job tracking** — Add, edit, delete and view applications across 5 status stages
+- **Status stages** — Wishlist → Applied → Interview → Offer → Rejected
+- **Real-time search** — Filter by company, position, or location instantly
+- **Status filter** — Filter jobs by stage with live counts
+- **Cloud storage** — Firestore database with per-user data isolation and real-time sync
+- **Resume builder** — Fill in your profile and generate a professional PDF resume
+- **PDF export** — One-click download with @react-pdf/renderer
+- **Responsive UI** — Works on mobile and desktop
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Frontend | React 19 + Vite |
+| Styling | Tailwind CSS v3 |
+| Authentication | Firebase Auth |
+| Database | Cloud Firestore |
+| PDF Generation | @react-pdf/renderer |
+| Routing | React Router v7 |
+| Notifications | React Hot Toast |
+| Icons | Lucide React |
+| Deployment | Vercel |
 
 ---
 
@@ -33,60 +55,70 @@ cd job-portal
 # Install dependencies
 npm install
 
+# Set up environment variables
+cp .env.example .env
+# Add your Firebase config values to .env
+
 # Start the development server
 npm run dev
 ```
 
 ---
 
-## 🛠️ Tech Stack
+## 🔐 Environment Variables
 
-- [React](https://reactjs.org/)
-- [Vite](https://vitejs.dev/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [React Router](https://reactrouter.com/en/main)
-- [@react-pdf/renderer](https://react-pdf.org/)— resume export
-- [Firebase Authentication](https://firebase.google.com/)
-
----
-
-## 🌍 Live Demo
-
-👉 [https://job-application-tracker-chi-ten.vercel.app/](https://job-application-tracker-chi-ten.vercel.app/)
-
-
----
-
-## 📁 Project Structure (to be updated)
-
+```env
+VITE_FIREBASE_API_KEY=your_api_key_here
+VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain_here
+VITE_FIREBASE_DATABASE_URL=your_database_url_here
+VITE_FIREBASE_PROJECT_ID=your_project_id_here
+VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket_here
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id_here
+VITE_FIREBASE_APP_ID=your_app_id_here
+VITE_FIREBASE_MEASUREMENT_ID=your_measurement_id_here
 ```
+
+---
+
+## 📁 Project Structure
+
+````
 src/
-│
-├── components/       # Reusable UI components
-├── pages/            # Route-level pages (Dashboard, AddJob, ResumeProfile)
-├── contexts/         # irebase Auth context provider
-├── firebase.js       #  Firebase config
-├── index.css         # Tailwind imports
-└── main.jsx          # App entry
-```
-
+├── components/
+│   ├── Layout.jsx          # Sidebar navigation and app shell
+│   ├── ProtectedRoute.jsx  # Firebase auth guard
+│   ├── ResumeDocument.jsx  # PDF resume template
+│   └── StatusBadge.jsx     # Job status color badges
+├── contexts/
+│   └── AuthContext.jsx     # Firebase auth context provider
+├── hooks/
+│   └── useTheme.js         # Dark mode hook
+├── pages/
+│   ├── Login.jsx           # Split-screen login page
+│   ├── Register.jsx        # Registration with password confirmation
+│   ├── DashBoard.jsx       # Job list with search and filter
+│   ├── AddJob.jsx          # Add and edit job form
+│   ├── JobDetail.jsx       # Individual job detail view
+│   ├── Profile.jsx         # User profile page
+│   ├── ResumeProfile.jsx   # Resume builder form
+│   ├── ResumePreview.jsx   # Resume preview with PDF download
+│   └── NotFound.jsx        # 404 page
+├── data/
+│   └── mockJobs.js         # Sample job data
+├── firebase.js             # Firebase app initialization
+└── App.jsx                 # Root component and routing
+````
 ---
 
-## 🤝 Contributing
+## 👨‍💻 Author
 
-This is a solo developer project for learning, demonstration, and showcasing.  
-Feel free to fork it or get inspired for your own resume tracker!
+**Anish Vattakunnel Mathew**
+📧 anish.v.mathew1986@gmail.com
+🌐 [anishvm.vercel.app](https://anishvm.vercel.app)
+🐙 [github.com/hsinatnias](https://github.com/hsinatnias)
 
 ---
 
 ## 📄 License
 
 [MIT](LICENSE)
-
----
-
-## 👋 Author
-
-**Anish Mathew**  
-📧 anish.v.mathew1986@gmail.com  
-🌐 [GitHub](https://github.com/hsinatnias)
