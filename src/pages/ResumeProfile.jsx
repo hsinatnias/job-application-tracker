@@ -2,45 +2,69 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
 import { ArrowLeft, FileText } from 'lucide-react'
+import { db } from '../firebase'
+import { doc, getDoc, setDoc } from 'firebase/firestore'
+import { useAuth } from '../contexts/AuthContext'
+
+const defaultProfile = {
+    name: 'Anish Vattakunnel Mathew',
+    email: 'anish.v.mathew1986@gmail.com',
+    phone: '+91 8891088818',
+    summary: 'Full Stack Developer with 3 years of enterprise SaaS development experience at a Japanese software company. Specialized in backend systems, secure authentication, and AI integration. Built and maintained platforms serving 10,000+ monthly active users. Currently expanding into modern frontend development with React and TypeScript, and actively exploring opportunities in Europe.',
+    skills: 'PHP, CodeIgniter, MySQL, PostgreSQL, JavaScript, React, TypeScript, Tailwind CSS, Python, FastAPI, RAG Pipelines, Qdrant, Ollama, Claude API, WebAuthn, SAML SSO, OAuth 2.0, Microsoft Azure AD, Google APIs, AWS EC2/S3, Git, GitHub Actions, CI/CD, Vercel, Docker, REST APIs',
+    experience: `PHP System Engineer / Full Stack Developer — Eastgate Infotech Pvt Ltd (June 2022 – Present)
+- Built and maintained enterprise SaaS platforms serving 10,000+ monthly active users across Japan
+- Implemented passkey authentication with WebAuthn, SAML SSO, and OAuth with Google
+- Integrated Microsoft Azure AD and Google IDP for enterprise identity management
+- Built bilingual AI RAG chatbot in Python and FastAPI with Qdrant vector database and Ollama LLM
+- Led CodeIgniter 3 to 4 migration on a live multi-tenant SaaS platform
+- Automated scheduled operations across 300 client websites using PowerShell scripts
+- Deployed and managed AWS EC2 and S3 infrastructure
+
+Process Engineer – VBA & Automation Developer — Sutherland Global Services (May 2018 – April 2019)
+- Led a 3-member team coordinating with North American stakeholders on Excel/VBA automation tools
+- Built Chrome extensions for automated data collection — reduced manual research time by 60%
+- Upgraded insurance risk rating tools — improved reliability and reduced assessment time by 40%`,
+    education: `Bachelor of Computer Applications (BCA) — Periyar University Salem (2019 – 2022)
+Focus: Software development, web technologies, OOP, databases, cloud computing. EQF Level 6.
+
+Higher Secondary Certificate (Class XII) — Board of Higher Secondary Education, Kerala (2002 – 2004)
+Subjects: Physics, Chemistry, Computer Science, Mathematics.`,
+}
 
 const ResumeProfile = () => {
     const navigate = useNavigate()
-    const defaultProfile = {
-        name: 'Anish Vattakunnel Mathew',
-        email: 'anish.v.mathew1986@gmail.com',
-        phone: '+91 8891088818',
-        summary: 'Full Stack Developer with 3 years of enterprise SaaS development experience at a Japanese software company. Specialized in backend systems, secure authentication, and AI integration. Built and maintained platforms serving 10,000+ monthly active users. Currently expanding into modern frontend development with React and TypeScript, and actively exploring opportunities in Europe.',
-        skills: 'PHP, CodeIgniter, MySQL, PostgreSQL, JavaScript, React, TypeScript, Tailwind CSS, Python, FastAPI, RAG Pipelines, Qdrant, Ollama, Claude API, WebAuthn, SAML SSO, OAuth 2.0, Microsoft Azure AD, Google APIs, AWS EC2/S3, Git, GitHub Actions, CI/CD, Vercel, Docker, REST APIs',
-        experience: `PHP System Engineer / Full Stack Developer — Eastgate Infotech Pvt Ltd (June 2022 – Present)
-    - Built and maintained enterprise SaaS platforms serving 10,000+ monthly active users across Japan
-    - Implemented passkey authentication with WebAuthn, SAML SSO, and OAuth with Google
-    - Integrated Microsoft Azure AD and Google IDP for enterprise identity management
-    - Built bilingual AI RAG chatbot in Python and FastAPI with Qdrant vector database and Ollama LLM
-    - Led CodeIgniter 3 to 4 migration on a live multi-tenant SaaS platform
-    - Automated scheduled operations across 300 client websites using PowerShell scripts
-    - Deployed and managed AWS EC2 and S3 infrastructure
+    const { user } = useAuth()
+    const [formData, setFormData] = useState(defaultProfile)
+    const [loading, setLoading] = useState(true)
 
-    Process Engineer – VBA & Automation Developer — Sutherland Global Services (May 2018 – April 2019)
-    - Led a 3-member team coordinating with North American stakeholders on Excel/VBA automation tools
-    - Built Chrome extensions for automated data collection — reduced manual research time by 60%
-    - Upgraded insurance risk rating tools — improved reliability and reduced assessment time by 40%`,
-        education: `Bachelor of Computer Applications (BCA) — Periyar University Salem (2019 – 2022)
-    Focus: Software development, web technologies, OOP, databases, cloud computing. EQF Level 6.
+    useEffect(() => {
+        const fetchResume = async () => {
+            if (!user) return
+            try {
+                const docRef = doc(db, 'users', user.uid, 'resume', 'profile')
+                const docSnap = await getDoc(docRef)
+                if (docSnap.exists()) {
+                    setFormData(docSnap.data())
+                }
+            } catch (err) {
+                console.error('Error fetching resume:', err)
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchResume()
+    }, [user])
 
-    Higher Secondary Certificate (Class XII) — Board of Higher Secondary Education, Kerala (2002 – 2004)
-    Subjects: Physics, Chemistry, Computer Science, Mathematics.`,
-    }
-
-    const [formData, setFormData] = useState(() => {
-        const stored = localStorage.getItem('resumeProfile')
-        return stored ? JSON.parse(stored) : defaultProfile
-    })
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        localStorage.setItem('resumeProfile', JSON.stringify(formData))
-        toast.success('Resume saved successfully')
-        navigate('/resume_preview')
+        try {
+            await setDoc(doc(db, 'users', user.uid, 'resume', 'profile'), formData)
+            toast.success('Resume saved successfully')
+            navigate('/resume_preview')
+        } catch (err) {
+            toast.error('Failed to save resume')
+        }
     }
 
     const handleChange = (e) => {
@@ -58,10 +82,16 @@ const ResumeProfile = () => {
         { name: 'education', label: 'Education', type: 'textarea', placeholder: 'Your educational background...' },
     ]
 
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center h-64">
+                <p className="text-sm text-gray-400">Loading resume...</p>
+            </div>
+        )
+    }
+
     return (
         <div className="max-w-2xl mx-auto">
-
-            {/* Header */}
             <div className="mb-8">
                 <button
                     onClick={() => navigate(-1)}
@@ -80,7 +110,6 @@ const ResumeProfile = () => {
                 </div>
             </div>
 
-            {/* Form */}
             <div className="bg-white border border-gray-100 rounded-xl p-6">
                 <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                     {fields.map((field) => (
@@ -127,7 +156,6 @@ const ResumeProfile = () => {
                     </div>
                 </form>
             </div>
-
         </div>
     )
 }

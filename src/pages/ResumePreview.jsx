@@ -1,37 +1,71 @@
-import { PDFDownloadLink } from "@react-pdf/renderer";
-import ResumeDocument from "../components/ResumeDocument.jsx";
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { PDFDownloadLink } from "@react-pdf/renderer"
+import ResumeDocument from "../components/ResumeDocument.jsx"
 import { ArrowLeft, Download, Pencil } from 'lucide-react'
+import { db } from '../firebase'
+import { doc, getDoc } from 'firebase/firestore'
+import { useAuth } from '../contexts/AuthContext'
+
+const defaultProfile = {
+    name: 'Anish Vattakunnel Mathew',
+    email: 'anish.v.mathew1986@gmail.com',
+    phone: '+91 8891088818',
+    summary: 'Full Stack Developer with 3 years of enterprise SaaS development experience at a Japanese software company. Specialized in backend systems, secure authentication, and AI integration. Built and maintained platforms serving 10,000+ monthly active users. Currently expanding into modern frontend development with React and TypeScript, and actively exploring opportunities in Europe.',
+    skills: 'PHP, CodeIgniter, MySQL, PostgreSQL, JavaScript, React, TypeScript, Tailwind CSS, Python, FastAPI, RAG Pipelines, Qdrant, Ollama, Claude API, WebAuthn, SAML SSO, OAuth 2.0, Microsoft Azure AD, Google APIs, AWS EC2/S3, Git, GitHub Actions, CI/CD, Vercel, Docker, REST APIs',
+    experience: `PHP System Engineer / Full Stack Developer — Eastgate Infotech Pvt Ltd (June 2022 – Present)
+- Built and maintained enterprise SaaS platforms serving 10,000+ monthly active users across Japan
+- Implemented passkey authentication with WebAuthn, SAML SSO, and OAuth with Google
+- Integrated Microsoft Azure AD and Google IDP for enterprise identity management
+- Built bilingual AI RAG chatbot in Python and FastAPI with Qdrant vector database and Ollama LLM
+- Led CodeIgniter 3 to 4 migration on a live multi-tenant SaaS platform
+- Automated scheduled operations across 300 client websites using PowerShell scripts
+- Deployed and managed AWS EC2 and S3 infrastructure
+
+Process Engineer – VBA & Automation Developer — Sutherland Global Services (May 2018 – April 2019)
+- Led a 3-member team coordinating with North American stakeholders on Excel/VBA automation tools
+- Built Chrome extensions for automated data collection — reduced manual research time by 60%
+- Upgraded insurance risk rating tools — improved reliability and reduced assessment time by 40%`,
+    education: `Bachelor of Computer Applications (BCA) — Periyar University Salem (2019 – 2022)
+Focus: Software development, web technologies, OOP, databases, cloud computing. EQF Level 6.
+
+Higher Secondary Certificate (Class XII) — Board of Higher Secondary Education, Kerala (2002 – 2004)
+Subjects: Physics, Chemistry, Computer Science, Mathematics.`,
+}
 
 const ResumePreview = () => {
     const navigate = useNavigate()
-    const defaultProfile = {
-        name: 'Anish Vattakunnel Mathew',
-        email: 'anish.v.mathew1986@gmail.com',
-        phone: '+91 8891088818',
-        summary: 'Full Stack Developer with 3 years of enterprise SaaS development experience at a Japanese software company. Specialized in backend systems, secure authentication, and AI integration. Built and maintained platforms serving 10,000+ monthly active users. Currently expanding into modern frontend development with React and TypeScript, and actively exploring opportunities in Europe.',
-        skills: 'PHP, CodeIgniter, MySQL, PostgreSQL, JavaScript, React, TypeScript, Tailwind CSS, Python, FastAPI, RAG Pipelines, Qdrant, Ollama, Claude API, WebAuthn, SAML SSO, OAuth 2.0, Microsoft Azure AD, Google APIs, AWS EC2/S3, Git, GitHub Actions, CI/CD, Vercel, Docker, REST APIs',
-        experience: `PHP System Engineer / Full Stack Developer — Eastgate Infotech Pvt Ltd (June 2022 – Present)
-    - Built and maintained enterprise SaaS platforms serving 10,000+ monthly active users across Japan
-    - Implemented passkey authentication with WebAuthn, SAML SSO, and OAuth with Google
-    - Integrated Microsoft Azure AD and Google IDP for enterprise identity management
-    - Built bilingual AI RAG chatbot in Python and FastAPI with Qdrant vector database and Ollama LLM
-    - Led CodeIgniter 3 to 4 migration on a live multi-tenant SaaS platform
-    - Automated scheduled operations across 300 client websites using PowerShell scripts
-    - Deployed and managed AWS EC2 and S3 infrastructure
+    const { user } = useAuth()
+    const [profile, setProfile] = useState(null)
+    const [loading, setLoading] = useState(true)
 
-    Process Engineer – VBA & Automation Developer — Sutherland Global Services (May 2018 – April 2019)
-    - Led a 3-member team coordinating with North American stakeholders on Excel/VBA automation tools
-    - Built Chrome extensions for automated data collection — reduced manual research time by 60%
-    - Upgraded insurance risk rating tools — improved reliability and reduced assessment time by 40%`,
-        education: `Bachelor of Computer Applications (BCA) — Periyar University Salem (2019 – 2022)
-    Focus: Software development, web technologies, OOP, databases, cloud computing. EQF Level 6.
+    useEffect(() => {
+        const fetchResume = async () => {
+            if (!user) return
+            try {
+                const docRef = doc(db, 'users', user.uid, 'resume', 'profile')
+                const docSnap = await getDoc(docRef)
+                if (docSnap.exists()) {
+                    setProfile(docSnap.data())
+                } else {
+                    setProfile(defaultProfile)
+                }
+            } catch (err) {
+                setProfile(defaultProfile)
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchResume()
+    }, [user])
 
-    Higher Secondary Certificate (Class XII) — Board of Higher Secondary Education, Kerala (2002 – 2004)
-    Subjects: Physics, Chemistry, Computer Science, Mathematics.`,
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center h-64">
+                <p className="text-sm text-gray-400">Loading resume...</p>
+            </div>
+        )
     }
-
-    const profile = JSON.parse(localStorage.getItem('resumeProfile')) || defaultProfile
 
     if (!profile) {
         return (

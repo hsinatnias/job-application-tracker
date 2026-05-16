@@ -11,7 +11,7 @@ const statusOptions = [
   { value: 'rejected', label: 'Rejected', color: 'text-red-600' },
 ]
 
-const AddJob = ({ setJobs, jobs }) => {
+const AddJob = ({ jobs, addJob, updateJob }) => {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const editId = searchParams.get('id')
@@ -35,22 +35,20 @@ const AddJob = ({ setJobs, jobs }) => {
     setFormData({ ...formData, [name]: value })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (editId) {
-      setJobs((prev) => prev.map((job) => job.id === editId ? { ...formData, id: editId } : job))
-      toast.success('Job updated successfully')
+        await updateJob(editId, formData)
+        toast.success('Job updated successfully')
     } else {
-      const newJob = {
-        ...formData,
-        id: Date.now().toString(),
-        appliedDate: new Date().toISOString().split('T')[0],
-      }
-      setJobs((prev) => [newJob, ...prev])
-      toast.success('Job added successfully')
+        await addJob({
+            ...formData,
+            appliedDate: new Date().toISOString().split('T')[0],
+        })
+        toast.success('Job added successfully')
     }
     navigate('/')
-  }
+}
 
   return (
     <div className="max-w-xl mx-auto">

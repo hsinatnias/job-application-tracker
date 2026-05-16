@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
 import StatusBadge from '../components/StatusBadge'
-import mockJobs from '../data/mockJobs'
 import { Briefcase, MapPin, Calendar, Eye, Pencil, Trash2 } from 'lucide-react'
 
 const statuses = ['all', 'wishlist', 'applied', 'interview', 'offer', 'rejected']
@@ -15,7 +14,7 @@ const summaryStats = [
   { label: 'Rejected', status: 'rejected', color: 'bg-red-50 text-red-700 border-red-100' },
 ]
 
-export default function Dashboard({ jobs, setJobs }) {
+export default function Dashboard({ jobs, addJob, updateJob, deleteJob }) {
   const [filter, setFilter] = useState('all')
   const [search, setSearch] = useState('')
   const navigate = useNavigate()
@@ -31,12 +30,12 @@ export default function Dashboard({ jobs, setJobs }) {
 
   const handleEdit = (id) => navigate(`/add?id=${id}`)
 
-  const handleDelete = (id) => {
+const handleDelete = async (id) => {
     if (confirm('Are you sure you want to delete this job?')) {
-      setJobs((prev) => prev.filter((job) => job.id !== id))
-      toast.success('Job deleted successfully')
+        await deleteJob(id)
+        toast.success('Job deleted successfully')
     }
-  }
+}
 
   return (
     <div className="flex flex-col gap-6">
@@ -187,11 +186,7 @@ export default function Dashboard({ jobs, setJobs }) {
       <div className="text-center">
         <button
           onClick={() => {
-            if (confirm('Reset all job data to defaults?')) {
-              localStorage.removeItem('jobs')
-              setJobs(mockJobs)
-              toast.success('Jobs reset to default')
-            }
+              toast.error('Reset not available with cloud storage')
           }}
           className="text-xs text-gray-400 hover:text-red-500 transition-colors underline"
         >
