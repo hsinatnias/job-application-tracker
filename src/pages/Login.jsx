@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -21,6 +21,19 @@ const Login = () => {
       setError(err.message);
     }
   };
+  const handleForgotPassword = async () => {
+      if (!email) {
+          setError('Please enter your email address first')
+          return
+      }
+      try {
+          await sendPasswordResetEmail(auth, email)
+          setError('')
+          alert('Password reset email sent! Check your inbox.')
+      } catch (err) {
+          setError(err.message)
+      }
+  }
 
   return (
     <div className="max-w-sm mx-auto p-6 mt-10 bg-white rounded shadow">
@@ -44,6 +57,15 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+        <div className="text-right mb-4">
+            <button
+                type="button"
+                onClick={handleForgotPassword}
+                className="text-sm text-blue-600 hover:underline"
+            >
+                Forgot password?
+            </button>
+        </div>
         <button className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">
           Login
         </button>

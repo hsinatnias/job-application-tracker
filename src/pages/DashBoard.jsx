@@ -16,9 +16,16 @@ const statuses = ['all', 'wishlist', 'applied', 'interview', 'offer', 'rejected'
 
 export default function Dashboard({ jobs, setJobs }) {
     const [filter, setFilter] = useState('all')
+    const [search, setSearch] = useState('')
 
-    const filteredJobs =
-        filter === 'all' ? jobs : jobs.filter((job) => job.status === filter)
+    const filteredJobs = jobs
+    .filter((job) => filter === 'all' || job.status === filter)
+    .filter((job) =>
+        search === '' ||
+        job.company.toLowerCase().includes(search.toLowerCase()) ||
+        job.position.toLowerCase().includes(search.toLowerCase()) ||
+        job.location.toLowerCase().includes(search.toLowerCase())
+    )
     const navigate = useNavigate()
 
     const handleEdit = (id) => {
@@ -37,7 +44,16 @@ export default function Dashboard({ jobs, setJobs }) {
 
     return (
         <div className="p-2 sm:p-4">
-            <h2 className="text-xl sm:text-2xl font-bold mb-4">📊 Job Applications</h2>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                <h2 className="text-xl sm:text-2xl font-bold">📊 Job Applications</h2>
+                <input
+                    type="text"
+                    placeholder="Search by company, position or location..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="w-full sm:w-72 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                />
+            </div>
 
             {/* Filter Buttons */}
             <div className="mb-4 flex flex-wrap gap-2">

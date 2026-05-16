@@ -1,4 +1,4 @@
-# 🧭 Job Application Tracker (React + Vite + Firebae + Tailwind)
+# 🧭 Job Application Tracker (React + Vite + Firebase + Tailwind)
 
 Track your job applications, statuses, and notes all in one place — and generate a polished resume from your profile. Built with **React**, **Tailwind CSS**, **Firebase Auth**, and **@react-pdf/renderer** for a modern, portable experience.
 
