@@ -1,16 +1,15 @@
-// src/firebase.js
 import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC_T-qJsXq7uxHwzHIWUkf6nL08-BROt1s",
-  authDomain: "whats-8828b.firebaseapp.com",
-  databaseURL: "https://whats-8828b.firebaseio.com",
-  projectId: "whats-8828b",
-  storageBucket: "whats-8828b.firebasestorage.app",
-  messagingSenderId: "337163129787",
-  appId: "1:337163129787:web:aab0a51473ee7ec6e76a9e",
-  measurementId: "G-DTVWMJWKNB"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 }
 
 const app = initializeApp(firebaseConfig)
