@@ -41,18 +41,23 @@ export default function Dashboard({ jobs, setJobs }) {
 
             {/* Filter Buttons */}
             <div className="mb-4 flex flex-wrap gap-2">
-                {statuses.map((status) => (
-                    <button
-                        key={status}
-                        onClick={() => setFilter(status)}
-                        className={`px-3 py-1 rounded text-sm border transition ${filter === status
-                            ? 'bg-blue-600 text-white border-blue-600'
-                            : 'bg-white text-gray-800 border-gray-300 hover:bg-gray-100'
-                            }`}
-                    >
-                        {status.charAt(0).toUpperCase() + status.slice(1)}
-                    </button>
-                ))}
+                {statuses.map((status) => {
+                    const count = status === 'all'
+                        ? jobs.length
+                        : jobs.filter((job) => job.status === status).length
+                    return (
+                        <button
+                            key={status}
+                            onClick={() => setFilter(status)}
+                            className={`px-3 py-1 rounded text-sm border transition ${filter === status
+                                ? 'bg-blue-600 text-white border-blue-600'
+                                : 'bg-white dark:bg-gray-700 dark:text-white text-gray-800 border-gray-300 hover:bg-gray-100'
+                                }`}
+                        >
+                            {status.charAt(0).toUpperCase() + status.slice(1)} ({count})
+                        </button>
+                    )
+                })}
             </div>
 
                  <button 
@@ -66,10 +71,20 @@ export default function Dashboard({ jobs, setJobs }) {
                 className="text-sm text-red-600 underline mt-4 mb-4">
                     Reset All Jobs
                 </button>
+           
             {/* Job Cards */}
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-               
-                {filteredJobs.map((job) => (
+                {filteredJobs.length === 0 ? (
+                    <div className="col-span-3 text-center py-16">
+                        <p className="text-4xl mb-4">📭</p>
+                        <p className="text-gray-500 font-medium">No jobs found</p>
+                        <p className="text-gray-400 text-sm mt-1">
+                            {filter === 'all'
+                                ? 'Add your first job application to get started'
+                                : `No jobs with status "${filter}"`}
+                        </p>
+                    </div>
+                ) : filteredJobs.map((job) => (
                     <div
                         key={job.id}
                         className="bg-white bg-gray-100 dark:bg-gray-900 border rounded-lg shadow-sm p-4 flex flex-col justify-between"
@@ -85,7 +100,15 @@ export default function Dashboard({ jobs, setJobs }) {
                         <div className="mt-4 flex justify-between items-center">
 
                             <StatusBadge status={job.status} />
-                            <span className="text-xs text-gray-400">{job.appliedDate}</span>
+                            <span className="text-xs text-gray-400">
+                                {job.appliedDate
+                                    ? new Date(job.appliedDate).toLocaleDateString('en-GB', {
+                                        day: 'numeric',
+                                        month: 'long',
+                                        year: 'numeric'
+                                    })
+                                    : '—'}
+                            </span>
                         </div>
                         {/*
                             view/Edit/Delete buttons
