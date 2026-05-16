@@ -1,189 +1,122 @@
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
-import { Menu, User, X } from "lucide-react";
+import { Menu, X, LayoutDashboard, PlusCircle, User, FileText, Eye, LogOut } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
-import useTheme  from "../hooks/useTheme.js";
 
+const navItems = [
+  { to: "/", label: "Dashboard", icon: LayoutDashboard, end: true },
+  { to: "/add", label: "Add Job", icon: PlusCircle },
+  { to: "/profile", label: "Profile", icon: User },
+  { to: "/resume", label: "Resume", icon: FileText },
+  { to: "/resume_preview", label: "Resume Preview", icon: Eye },
+];
 
 export default function Layout() {
   const [isOpen, setIsOpen] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const dropdownRef = useRef();
-
-  // Close dropdown if clicked outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setShowDropdown(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  const handleLogout = () => {
-    signOut(auth)
-    navigate("/login")
-  }
-  const [darkMode, setDarkMode] = useTheme()
+  const handleLogout = async () => {
+    if (confirm("Are you sure you want to logout?")) {
+      await signOut(auth);
+      navigate("/login");
+    }
+  };
 
   return (
-      <div className={`${darkMode ? 'dark' : ''}`}>
-          <div className="min-h-screen flex flex-col md:flex-row relative">
-              {/* Mobile Header */}
-              <div className="md:hidden bg-gray-800 text-white flex justify-between items-center px-4 py-3 relative z-40">
-                  <h1 className="text-xl font-bold">Job Tracker</h1>
-                  <div className="flex items-center gap-4">
-                      <button
-                          onClick={() => setShowDropdown(!showDropdown)}
-                          className="focus:outline-none"
-                      >
-                          {user?.photoURL ? (
-                              <img
-                                  src={user.photoURL}
-                                  alt="avatar"
-                                  className="w-8 h-8 rounded-full object-cover border-2 border-white"
-                              />
-                          ) : (
-                              <div className="w-8 h-8 bg-neutral-600 text-white rounded-full flex items-center justify-center font-bold">
-                                  {user?.email?.[0]?.toUpperCase() || "?"}
-                              </div>
-                          )}
+    <div className="min-h-screen flex bg-gray-50">
 
-                      </button>
-                      <button
-                          onClick={() => setIsOpen(!isOpen)}
-                          className="focus:outline-none"
-                      >
-                          {isOpen ? <X /> : <Menu />}
-                      </button>
-                  </div>
+      {/* Mobile overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-30 z-20 lg:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
 
-                  {/* Dropdown Menu */}
-                  {showDropdown && (
-                      <div
-                          ref={dropdownRef}
-                          className="absolute top-14 right-4 bg-white text-black rounded shadow-md w-40 z-10"
-                      >
-                          <button className="block w-full px-4 py-2 text-left hover:bg-gray-100">
-                              Profile
-                          </button>
-                          <button
-                              onClick={handleLogout}
-                              className="block w-full px-4 py-2 text-left hover:bg-gray-100"
-                          >
-                              Logout
-                          </button>
-                      </div>
-                  )}
-              </div>
+      {/* Sidebar */}
+      <aside className={`
+        fixed inset-y-0 left-0 z-30 w-64 bg-white border-r border-gray-100 flex flex-col
+        transform transition-transform duration-200 ease-in-out
+        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+        lg:relative lg:translate-x-0
+      `}>
 
-              {/* Sidebar */}
-              <aside
-                  className={`
-          fixed md:static top-0 left-0 h-full md:w-72 bg-blue-500 dark:bg-gray-900 text-gray-900 dark:text-gray-100 text-white flex flex-col p-4 space-y-2
-          transform ${isOpen ? "translate-x-0" : "-translate-x-full"} 
-          transition-transform duration-300 ease-in-out 
-          z-40 md:translate-x-0 md:flex h-full md:h-auto
-        `}
-              >
-                  <div className="flex items-center gap-2 mb-4">
-                      {user?.photoURL ? (
-                          <img src={user.photoURL} alt="avatar" className="w-8 h-8 rounded-full" />
-                      ) : (
-                          <div className="w-8 h-8 bg-neutral-600 text-white rounded-full flex items-center justify-center font-bold">
-                              {user?.email?.[0]?.toUpperCase() || "?"}
-                          </div>
-                      )}
-                      <span className="text-sm text-gray-300">{user?.email}</span>
-                  </div>
+        {/* Logo */}
+        <div className="px-6 py-5 border-b border-gray-100">
+          <h1 className="text-lg font-bold text-indigo-600">🧭 Job Tracker</h1>
+          <p className="text-xs text-gray-400 mt-0.5">Career management</p>
+        </div>
 
-                  <h1 className="text-2xl font-bold mb-6 hidden md:block">Job Tracker</h1>
-                  <NavLink
-                      to="/"
-                      end
-                      onClick={() => setIsOpen(false)}
-                      className={({ isActive }) =>
-                          `py-2 px-4 rounded ${isActive ? "bg-blue-900 text-white" : "hover:bg-blue-900"
-                          }`
-                      }
-                  >
-                      Dashboard
-                  </NavLink>
-                  <NavLink
-                      to="/add"
-                      onClick={() => setIsOpen(false)}
-                      className={({ isActive }) =>
-                          `py-2 px-4 rounded ${isActive ? "bg-blue-900 text-white" : "hover:bg-blue-900"
-                          }`
-                      }
-                  >
-                      Add Job
-                  </NavLink>
-                  <NavLink
-                      to="/profile"
-                      onClick={() => setIsOpen(false)}
-                      className={({ isActive }) =>
-                          `py-2 px-4 rounded ${isActive ? "bg-blue-900 text-white" : "hover:bg-blue-900"
-                          }`
-                      }
-                  >
-                      Profile
-                  </NavLink>
-                  <NavLink
-                      to="/resume"
-                      onClick={() => setIsOpen(false)}
-                      className={({ isActive }) =>
-                          `py-2 px-4 rounded ${isActive ? "bg-blue-900 text-white" : "hover:bg-blue-900"
-                          }`
-                      }
-                  >
-                      Resume
-
-                  </NavLink>
-                  <NavLink
-                      to="/resume_preview"
-                      onClick={() => setIsOpen(false)}
-                      className={({ isActive }) =>
-                          `py-2 px-4 rounded ${isActive ? "bg-blue-900 text-white" : "hover:bg-blue-900"
-                          }`
-                      }
-                  >
-                      Resume Preview
-
-                  </NavLink>
-                  <NavLink
-                      onClick={handleLogout}
-                      className="py-2 px-4 rounded hover:bg-blue-900 text-left"
-                  >
-                      Logout
-                  </NavLink>
-                  <div className="mt-auto pt-4 border-t border-gray-700">
-                      <button
-                          onClick={() => setDarkMode(!darkMode)}
-                          className="text-sm bg-gray-300 dark:bg-gray-700 text-black dark:text-white px-3 py-2 rounded w-full"
-                      >
-                          {darkMode ? '🌙 Dark' : '☀️ Light'}
-                      </button>
-                  </div>
-              </aside>
-
-               {/*Main Content*/}
-              <main className="flex-1 p-4 md:p-8 bg-gray-100 dark:bg-gray-800 text-black dark:text-white transition-colors">
-                  <Outlet />
-              </main>
-
-
-
-
+        {/* User info */}
+        <div className="px-6 py-4 border-b border-gray-100">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-sm">
+              {user?.email?.[0]?.toUpperCase() || "?"}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-medium text-gray-900 truncate">{user?.email}</p>
+              <p className="text-xs text-gray-400">Logged in</p>
+            </div>
           </div>
-      </div>
+        </div>
 
+        {/* Nav links */}
+        <nav className="flex-1 px-3 py-4 flex flex-col gap-1">
+          {navItems.map((item) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              end={item.end}
+              onClick={() => setIsOpen(false)}
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                  isActive
+                    ? 'bg-indigo-50 text-indigo-600'
+                    : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
+                }`
+              }
+            >
+              <item.icon size={16} />
+              {item.label}
+            </NavLink>
+          ))}
+        </nav>
+
+        {/* Logout */}
+        <div className="px-3 py-4 border-t border-gray-100">
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-gray-500 hover:bg-red-50 hover:text-red-600 transition-colors"
+          >
+            <LogOut size={16} />
+            Logout
+          </button>
+        </div>
+      </aside>
+
+      {/* Main content */}
+      <div className="flex-1 flex flex-col min-w-0">
+
+        {/* Mobile header */}
+        <header className="lg:hidden bg-white border-b border-gray-100 px-4 py-3 flex items-center justify-between">
+          <h1 className="text-base font-bold text-indigo-600">🧭 Job Tracker</h1>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            {isOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </header>
+
+        {/* Page content */}
+        <main className="flex-1 p-4 md:p-8">
+          <Outlet />
+        </main>
+
+      </div>
+    </div>
   );
 }
