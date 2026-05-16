@@ -92,7 +92,7 @@ src/
 ├── contexts/
 │   └── AuthContext.jsx     # Firebase auth context provider
 ├── hooks/
-│   └── useTheme.js         # Dark mode hook
+│   └── 
 ├── pages/
 │   ├── Login.jsx           # Split-screen login page
 │   ├── Register.jsx        # Registration with password confirmation
